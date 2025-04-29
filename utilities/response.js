@@ -46,4 +46,4 @@ class Response {
     });
   };
 }
-export default Response();
+export default new Response();

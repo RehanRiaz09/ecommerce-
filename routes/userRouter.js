@@ -9,7 +9,7 @@ routes.post('/login', validatior.login, userController.Login);
 routes.get('/users', middleware.authenticateUser, userController.getAllUser);
 routes.get('/', middleware.authenticateToken, userController.getOnlyId);
 routes.patch('/:userId', userController.userUpdate);
-routes.get('/getById/:userId', userController.getById);
+routes.get('/:userId', userController.getById);
 routes.delete('/:userId', userController.userDelete);
 routes.post('/forget-Password', userController.forgetPassword);
 routes.post('/reset-Password/:token', userController.resetPassword);

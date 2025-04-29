@@ -114,8 +114,7 @@ class UserController {
   };
   userUpdate = async (req, res) => {
     try {
-      const userId = req.pa;
-      rams.userId;
+      const userId = req.params.userId;
 
       //  Ensure userId is a valid ObjectId
       if (!mongoose.Types.ObjectId.isValid(userId)) {
