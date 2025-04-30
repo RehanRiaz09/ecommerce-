@@ -39,5 +39,6 @@ const messageUtil = {
   PASSWORD_NOT_MATCH: 'Current password does not match',
   TYPE_INVALID: 'Invalid type',
   STATUS_INVALID: 'Invalid status value',
+  DELETE: 'Data is successfully deleted',
 };
 export default messageUtil;

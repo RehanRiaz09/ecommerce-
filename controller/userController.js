@@ -131,7 +131,11 @@ class UserController {
       }
 
       //  Pass the correct ID for updating the user
-      user = await userService.updateUser({ _id: userId }, req.body);
+      user = await userService.updateUser(
+        { _id: userId },
+        req.body,
+        { password: await bcryptHash(req.body.password) } // hash the password
+      );
       // check user exist or not
       if (!user) {
         return Response.notfound(res, messageUtil.NOT_FOUND); // return the response
