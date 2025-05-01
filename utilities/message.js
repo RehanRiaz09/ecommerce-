@@ -40,5 +40,6 @@ const messageUtil = {
   TYPE_INVALID: 'Invalid type',
   STATUS_INVALID: 'Invalid status value',
   DELETE: 'Data is successfully deleted',
+  SUCCESS: 'Data is successfully created',
 };
 export default messageUtil;
