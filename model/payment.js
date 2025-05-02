@@ -6,6 +6,7 @@ const paymentSchema = new Schema(
       ref: 'Order',
       required: true,
     },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     amount: { type: Number, required: true },
     method: { type: String, required: true }, // e.g., 'Credit Card', 'PayPal', 'Stripe'
     status: { type: String, default: 'Processing' }, // Paid, Failed, Refunded

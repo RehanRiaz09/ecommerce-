@@ -5,7 +5,10 @@ import cartService from '../services/cartService.js';
 class cartController {
   cartCreate = async (req, res) => {
     try {
-      const cart = await cartService.createCart(req.body);
+      const cart = await cartService.createCart({
+        user: req.userId,
+        ...req.body,
+      });
       return Response.success(res, messageUtil.SUCCESS, cart);
     } catch (error) {
       Response.serverError(res, error);

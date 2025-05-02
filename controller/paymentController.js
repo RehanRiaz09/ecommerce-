@@ -6,7 +6,10 @@ import orderService from '../services/orderService.js';
 class paymentController {
   paymentCreate = async (req, res) => {
     try {
-      const payment = await paymentService.createPayment(req.body);
+      const payment = await paymentService.createPayment({
+        user: req.userId,
+        ...req.body,
+      });
       if (req.body.status === 'paid') {
         await orderService.updateOrder(
           { _id: req.body.order },

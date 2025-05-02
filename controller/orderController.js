@@ -5,7 +5,10 @@ import orderService from '../services/orderService.js';
 class orderController {
   orderCreate = async (req, res) => {
     try {
-      const order = await orderService.createOrder(req.body);
+      const order = await orderService.createOrder({
+        user: req.userId,
+        ...req.body,
+      });
       return Response.success(res, messageUtil.SUCCESS, order);
     } catch (error) {
       Response.serverError(res, error);

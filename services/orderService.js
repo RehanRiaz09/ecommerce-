@@ -5,14 +5,14 @@ class orderCrud {
   };
   findAll = async (query) => {
     return await Order.find(query).populate(
-      'products.productId',
-      'title price'
+      'products.productId user',
+      'title price name email'
     );
   };
   findOrder = async (OrderId) => {
     return await Order.findOne(OrderId).populate(
-      'products.productId',
-      'title price'
+      'products.productId user',
+      'title price name email'
     );
   };
   updateOrder = async (query, data) => {
