@@ -10,11 +10,36 @@ const orderSchema = new Schema(
       },
     ],
     total: { type: Number, required: true },
+    adress: [
+      {
+        shippingAddress: {
+          type: String,
+          required: true,
+        },
+        city: {
+          type: String,
+          required: true,
+        },
+        zip: {
+          type: String,
+          required: true,
+        },
+        country: {
+          type: String,
+          required: true,
+        },
+        phone: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     status: {
       type: String,
       default: 'pending',
       enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
     },
+    paymentStatus: { type: String, default: 'Unpaid' },
   },
   { timeStamps: true }
 );
