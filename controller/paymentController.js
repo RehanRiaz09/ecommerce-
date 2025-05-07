@@ -16,7 +16,6 @@ class paymentController {
           { paymentStatus: 'paid' }
         );
       }
-      console.log();
 
       return Response.success(res, messageUtil.SUCCESS, payment);
     } catch (error) {

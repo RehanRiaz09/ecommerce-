@@ -13,6 +13,7 @@ class productController {
       //   }
       const result = await cloudinary.uploader.upload(req.file.path);
       const product = await productservices.createProduct({
+        user: req.userId,
         ...req.body,
         images: result.secure_url,
       });

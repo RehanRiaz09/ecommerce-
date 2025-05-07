@@ -18,7 +18,12 @@ const upload = multer({
   limit: { fileSize: 5 * 1024 * 1024 },
 });
 
-routes.post('/', upload.single('images'), productController.ProductCreate);
+routes.post(
+  '/',
+  upload.single('images'),
+  auth.authenticateToken,
+  productController.ProductCreate
+);
 routes.get('/', auth.authenticateUser, productController.findAll);
 routes.get('/:productId', productController.findProduct);
 routes.put(

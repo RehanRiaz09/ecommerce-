@@ -10,31 +10,12 @@ const orderSchema = new Schema(
       },
     ],
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    locationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Location',
+      required: true,
+    },
     total: { type: Number, required: true },
-    adress: [
-      {
-        shippingAddress: {
-          type: String,
-          required: true,
-        },
-        city: {
-          type: String,
-          required: true,
-        },
-        zip: {
-          type: String,
-          required: true,
-        },
-        country: {
-          type: String,
-          required: true,
-        },
-        phone: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
     status: {
       type: String,
       default: 'pending',
