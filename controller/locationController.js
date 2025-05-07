@@ -42,14 +42,13 @@ class locationCrud {
   locationUpdate = async (req, res) => {
     try {
       const locationId = req.params.locationId;
-      const response = await cartService.findCart({ _id: locationId });
-      if (!response) {
-        return Response.notfound(res, messageUtil.NOT_FOUND);
-      }
       const location = await locationService.updateLocation(
-        { _id: locationId },
+        { _id: locationId, user: req.user._id },
         req.body
       );
+      if (!location) {
+        return Response.notfound(res, messageUtil.NOT_FOUND);
+      }
       Response.success(res, messageUtil.UPDATE, location);
     } catch (error) {
       Response.serverError(res, error);
@@ -58,11 +57,10 @@ class locationCrud {
   locationDelete = async (req, res) => {
     try {
       const locationId = req.params.locationId;
-      const response = await cartService.findCart({ _id: locationId });
+      const response = await locationService.delateLocation(locationId);
       if (!response) {
         return Response.notfound(res, messageUtil.NOT_FOUND);
       }
-      await locationService.delateLocation(locationId);
       Response.success(res, messageUtil.DELETE);
     } catch (error) {}
   };
