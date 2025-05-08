@@ -1,4 +1,4 @@
-import Location from '../model/location';
+import Location from '../model/location.js';
 
 class locationCrud {
   createLocation = async (query) => {
