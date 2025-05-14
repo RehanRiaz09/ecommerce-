@@ -15,5 +15,8 @@ class productCrud {
   delateProduct = async (query) => {
     return await Product.findByIdAndDelete(query);
   };
+  createNew = async (query, session) => {
+    return await Product.create([query], { session });
+  };
 }
 export default new productCrud();

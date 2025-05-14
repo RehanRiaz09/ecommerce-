@@ -17,6 +17,7 @@ cloudinary.config({
 });
 
 const upload = multer({ dest: 'uploads/' });
+
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ urlencoded: true }));

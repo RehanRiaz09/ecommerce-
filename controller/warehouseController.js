@@ -9,6 +9,7 @@ class warehouseController {
         user: req.userId,
         ...req.body,
       });
+
       return Response.success(res, messageUtil.SUCCESS, warehouse);
     } catch (error) {
       Response.serverError(res, error);

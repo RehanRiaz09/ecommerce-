@@ -17,7 +17,6 @@ class productController {
         ...req.body,
         images: result.secure_url,
       });
-
       Response.success(res, messageUtil.OK, product);
     } catch (error) {
       return Response.serverError(res, error);
@@ -66,6 +65,27 @@ class productController {
       Response.success(res, messageUtil.DELETE);
     } catch (error) {
       Response.serverError(res, error);
+    }
+  };
+  newProduct = async (req, res) => {
+    const session = req.mongoSession;
+
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      const product = await productservices.createNew({
+        user: req.userId,
+        ...req.body,
+        image: result.secure_url,
+        session,
+      });
+
+      await session.commitTransaction();
+      session.endSession();
+
+      Response.success(res, messageUtil.SUCCESS, product);
+    } catch (error) {
+      return Response.serverError(res, error);
     }
   };
 }

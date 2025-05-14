@@ -6,14 +6,14 @@ class variantCrud {
   };
   findAll = async (query) => {
     return await Variant.find(query).populate(
-      'productId warehouse',
-      'title price name address'
+      'user productId warehouse',
+      'name email title price name address'
     );
   };
   findVariant = async (variantId) => {
     return await Variant.findOne(variantId).populate(
-      'productId warehouse',
-      'title price name address'
+      'user productId warehouse',
+      'name email title price name address'
     );
   };
   updateVariant = async (query, data) => {
