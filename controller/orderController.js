@@ -17,7 +17,7 @@ class orderController {
   findAllOrders = async (req, res) => {
     try {
       if (!req.user || !req.user._id) {
-        return Response.unauthorized(res, 'User not authenticated');
+        return Response.authorizationError(res, 'User not authenticated');
       }
       const response = await orderService.findAll(req.query);
       if (response.length === 0) {
@@ -55,6 +55,16 @@ class orderController {
       Response.success(res, messageUtil.DELETE);
     } catch (error) {
       Response.serverError(res, error);
+    }
+  };
+  getSellerOrders = async (req, res) => {
+    try {
+      const sellerId = req.user._id; // assuming seller is logged in
+      const orders = await orderService.findOrdersBySeller(sellerId);
+
+      return Response.success(res, messageUtil.OK, orders);
+    } catch (error) {
+      Response.serverError(res, error.message);
     }
   };
 }
