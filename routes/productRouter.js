@@ -1,7 +1,6 @@
 import express from 'express';
 const routes = express.Router();
 import productController from '../controller/productController.js';
-import createProductRelations from '../middleware/productMiddleware.js';
 import multer from 'multer';
 import auth from '../middleware/auth.js';
 import path from 'path';
@@ -38,7 +37,6 @@ routes.post(
   '/new',
   upload.single('images'),
   auth.authenticateToken,
-  createProductRelations,
-  productController.newProduct
+  productController.createProductWithInventory
 );
 export default routes;

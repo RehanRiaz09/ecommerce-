@@ -1,6 +1,10 @@
 import Response from '../utilities/response.js';
 import messageUtil from '../utilities/message.js';
 import productservices from '../services/productService.js';
+import Product from '../model/product.js';
+import Inventory from '../model/inventory.js';
+import Variant from '../model/variant.js';
+import Warehouse from '../model/warehouse.js';
 import cloudinary from 'cloudinary';
 const dotenv = await import('dotenv');
 dotenv.config();
@@ -67,25 +71,72 @@ class productController {
       Response.serverError(res, error);
     }
   };
-  newProduct = async (req, res) => {
-    const session = req.mongoSession;
+  createProductWithInventory = async (req, res) => {
+    const session = await Product.startSession();
+    session.startTransaction();
 
     try {
+      const { user, variant, warehouse } = req.body;
+
+      // 1. Create or find warehouse
+      let warehouseDoc = await Warehouse.findOne({
+        name: warehouse.name,
+        user,
+      });
+
+      if (!warehouseDoc) {
+        warehouseDoc = new Warehouse({ ...warehouse, user });
+        await warehouseDoc.save({ session });
+      }
+
+      // // 2. Upload product image
       const result = await cloudinary.uploader.upload(req.file.path);
 
-      const product = await productservices.createNew({
-        user: req.userId,
-        ...req.body,
-        image: result.secure_url,
-        session,
+      // 3. Create product
+      const product = await productservices.createProduct(
+        {
+          user: req.userId,
+          ...req.body,
+          images: result.secure_url,
+        },
+        session
+      ); // Pass session if supported
+
+      // 4. Create variant with product ID
+      const newVariant = new Variant({
+        user,
+        size: variant.size,
+        color: variant.color,
+        warehouse: warehouseDoc._id,
+        productId: product._id, // <-- Add product reference here
       });
+      await newVariant.save({ session });
+
+      // 5. Create inventory with product and variant ID
+      const newInventory = new Inventory({
+        user,
+        variant: newVariant._id,
+        price: variant.price,
+        stock: variant.stock,
+        warehouse: warehouseDoc._id,
+        productId: product._id, // <-- Add product reference here
+      });
+      await newInventory.save({ session });
 
       await session.commitTransaction();
       session.endSession();
-
-      Response.success(res, messageUtil.SUCCESS, product);
+      Response.success(
+        res,
+        messageUtil.SUCCESS,
+        product,
+        newVariant,
+        newInventory,
+        warehouseDoc
+      );
     } catch (error) {
-      return Response.serverError(res, error);
+      await session.abortTransaction();
+      session.endSession();
+      Response.serverError(res, error);
     }
   };
 }

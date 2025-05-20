@@ -9,8 +9,6 @@ const locationSchema = new Schema(
     state: { type: String },
     zipCode: { type: String },
     country: { type: String, required: true },
-    latitude: { type: String },
-    longitude: { type: String },
   },
   { timestamps: true }
 );

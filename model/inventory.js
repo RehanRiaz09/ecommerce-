@@ -7,6 +7,7 @@ const inventorySchema = new Schema({
     ref: 'Variant',
     required: true,
   },
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
   stock: { type: Number, default: 0 },
   price: { type: Number, required: true },
   warehouse: {
