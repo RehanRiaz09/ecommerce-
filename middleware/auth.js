@@ -41,8 +41,18 @@ const authenticateUser = (req, res, next) => {
     res.status(400).json({ message: 'Invalid Token' });
   }
 };
+const verifyRefreshToken = (req, res, next) => {
+  const authHeader = req.header('Authorization');
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Refresh token not provided' });
+  }
+
+  const refreshToken = authHeader.replace('Bearer ', '');
+};
 export default {
   authenticateToken,
   isAdmin,
   authenticateUser,
+  verifyRefreshToken,
 };

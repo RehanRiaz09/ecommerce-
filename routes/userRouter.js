@@ -14,5 +14,6 @@ routes.delete('/:userId', userController.userDelete);
 routes.post('/forget-Password', userController.forgetPassword);
 routes.post('/reset-Password/:token', userController.resetPassword);
 routes.post('/change_password', userController.changePassword);
+routes.post('/refresh-token', userController.refreshToken);
 
 export default routes;

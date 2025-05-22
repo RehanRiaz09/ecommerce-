@@ -41,6 +41,7 @@ const messageUtil = {
   STATUS_INVALID: 'Invalid status value',
   DELETE: 'Data is successfully deleted',
   SUCCESS: 'Data is successfully created',
+  TOKEN_REFRESHED: 'Token refresh sucessfully',
   // product
   USER_STRING_BASE: 'User should be a type of text',
   USER_STRING_EMPTY: 'User cannot be an empty field',

@@ -11,6 +11,8 @@ import mongoose from 'mongoose';
 import User from '../model/user.js';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+const dotenv = await import('dotenv');
+dotenv.config();
 
 class UserController {
   SignUp = async (req, res) => {
@@ -51,7 +53,10 @@ class UserController {
       }
       // issue the token
       const token = await jwtHelper.issue({ _id: user._id });
-      return Response.success(res, messageUtil.LOGIN_SUCCESS, user, token); // return the response
+      return Response.success(res, messageUtil.LOGIN_SUCCESS, {
+        user,
+        token,
+      }); // return the response
     } catch (error) {
       // return the response of the error
       return Response.serverError(res, error);
@@ -292,6 +297,22 @@ class UserController {
     } catch (error) {
       return Response.serverError(res, error);
       // return res.status(500).send({ message: 'Something went wrong' });
+    }
+  };
+  refreshToken = (req, res) => {
+    const { accessToken } = req.body;
+    let resreshToken = '';
+
+    try {
+      const decoded = jwtHelper.verify(accessToken, process.env.SECRETKEY);
+
+      if (decoded) {
+        resreshToken = jwtHelper.issue({ _id: decoded._id });
+      }
+
+      return Response.success(res, 'Token Refresh', { resreshToken });
+    } catch (error) {
+      Response.authorizationError(res, 'Please login again');
     }
   };
 }
